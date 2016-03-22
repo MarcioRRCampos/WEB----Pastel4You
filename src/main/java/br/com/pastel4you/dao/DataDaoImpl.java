@@ -105,21 +105,31 @@ public class DataDaoImpl implements DataDao {
 		return employeeList;
 	}
 	
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public List<Ingrediente> getIngredienteList() throws Exception {
+//		session = sessionFactory.openSession();
+//		tx = session.beginTransaction();
+//		
+//		SQLQuery callStoredProcedure_MYSQL = session.createSQLQuery("CALL SP_CONSULTA_INGREDIENTES").addEntity(Ingrediente.class);
+//		//List<Ingrediente> list; 
+//		List<Ingrediente> retorno = callStoredProcedure_MYSQL.list();
+//		
+//		tx.commit();
+//		session.close();
+//		return retorno;
+//	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Ingrediente> getIngredienteList() throws Exception {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
-		
-		SQLQuery callStoredProcedure_MYSQL = session.createSQLQuery("CALL SP_CONSULTA_INGREDIENTES").addEntity(Ingrediente.class);
-		//List<Ingrediente> list; 
-		List<Ingrediente> retorno = callStoredProcedure_MYSQL.list();
-		
+		List<Ingrediente> list = session.createCriteria(Ingrediente.class)
+				.list();
 		tx.commit();
 		session.close();
-		return retorno;
+		return list;
 	}
-	
 
 	
 //	@SuppressWarnings("unchecked")

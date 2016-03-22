@@ -34,6 +34,7 @@
 				<value>br.com.pastel4you.model.TipoDeVenda</value>
 				<value>br.com.pastel4you.model.Venda</value>
 				<value>br.com.pastel4you.model.Pastel_Ingrediente</value>
+				<value>br.com.pastel4you.model.TipoDeIngrediente</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

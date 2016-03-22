@@ -14,9 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @Entity
+@Table(name = "TBL_PASTEL")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pastel implements Serializable{
 	/**
@@ -78,7 +80,9 @@ public class Pastel implements Serializable{
 	//@ManyToMany(cascade=CascadeType.ALL)  
     //@JoinTable(name="ID_IGREDIENTE_PASTEL", joinColumns=@JoinColumn(name="ID_PASTEL"), inverseJoinColumns=@JoinColumn(name="ID_PASTEL"))
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ID_INGREDIENTE")
+	//@OneToMany(cascade=CascadeType.ALL, mappedBy = "ID_INGREDIENTE")
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name="TBL_INGREDIENTE_X_PASTEL", joinColumns={@JoinColumn(name="ID_PASTEL")}, inverseJoinColumns={@JoinColumn(name="ID_PASTEL")})
 	public Set<Ingrediente> getIngredientes() {
 		return ingredientes;
 	}

@@ -1,10 +1,14 @@
 package br.com.pastel4you.model;
 
 import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -27,17 +31,10 @@ public class Ingrediente implements Serializable {
 	private Double txPorcao;
 	@Column(name = "URL_IMG")
 	private String urlImg;
-	@Column(name = "NM_TIPO")
-	private String tipo;
-	 
-//	public Ingrediente(long id, String ingrediente, Double txPorcao, String urlImg, String tipo) {
-//		super();
-//		this.id = id;
-//		this.ingrediente = ingrediente;
-//		this.txPorcao = txPorcao;
-//		this.urlImg = urlImg;
-//		this.tipo = tipo;
-//	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="ID_TIPO")
+	private TipoDeIngrediente tipo;
 	public long getId() {
 		return id;
 	}
@@ -62,10 +59,10 @@ public class Ingrediente implements Serializable {
 	public void setUrlImg(String urlImg) {
 		this.urlImg = urlImg;
 	}
-	public String getTipo() {
+	public TipoDeIngrediente getTipo() {
 		return tipo;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(TipoDeIngrediente tipo) {
 		this.tipo = tipo;
 	}
 	public static long getSerialversionuid() {
@@ -115,7 +112,5 @@ public class Ingrediente implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 	
 }
