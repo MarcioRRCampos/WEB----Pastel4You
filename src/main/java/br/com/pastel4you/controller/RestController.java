@@ -12,15 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.pastel4you.model.Cliente;
 import br.com.pastel4you.model.Employee;
-import br.com.pastel4you.model.Ingrediente;
 import br.com.pastel4you.model.Pastel;
 import br.com.pastel4you.model.Status;
 import br.com.pastel4you.services.DataServices;
 
+
 @Controller
-@RequestMapping("/cliente")
+@RequestMapping("/super")
 public class RestController {
 
 	@Autowired
@@ -53,31 +52,18 @@ public class RestController {
 		return employee;
 	}
 	
-	@RequestMapping(value = "/listCliente", method = RequestMethod.GET)
-	public @ResponseBody 
-	List<Cliente> getListCliente(){
-		
-		List<Cliente> clienteList = null;
-		try{
-			clienteList = dataServices.getClienteList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return clienteList;
-	}
-	
-	@RequestMapping(value = "/listIngrediente", method = RequestMethod.GET)
-	public @ResponseBody 
-	List<Ingrediente> getListIngrediente(){
-		
-		List<Ingrediente> list = null;
-		try{
-			list = dataServices.getIngredienteList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+//	@RequestMapping(value = "/listCliente", method = RequestMethod.GET)
+//	public @ResponseBody 
+//	List<Cliente> getListCliente(){
+//		
+//		List<Cliente> clienteList = null;
+//		try{
+//			clienteList = dataServices.getClienteList();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return clienteList;
+//	}
 	
 	@RequestMapping(value = "/listPastel", method = RequestMethod.GET)
 	public @ResponseBody 

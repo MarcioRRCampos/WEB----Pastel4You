@@ -9,13 +9,13 @@
 
 	<context:component-scan base-package="br.com.pastel4you.controller" />
 	<mvc:annotation-driven />
-
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://pastel4you.com.br:3306/pastel4y_sys_base" />
 		<property name="username" value="pastel4y_adm" />
-		<property name="password" value="SysTcc2016" />
+		<property name="password" value="Pastel1426" />
 	</bean>
 
 	<bean id="sessionFactory"
@@ -24,9 +24,16 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>br.com.pastel4you.model.Cliente</value>
+				<value>br.com.pastel4you.model.Compras</value>
 				<value>br.com.pastel4you.model.Endereco</value>
+				<value>br.com.pastel4you.model.Estabelecimento</value>
+				<value>br.com.pastel4you.model.Estoque</value>
 				<value>br.com.pastel4you.model.Ingrediente</value>
+				<value>br.com.pastel4you.model.ItemDeVenda</value>
 				<value>br.com.pastel4you.model.Pastel</value>
+				<value>br.com.pastel4you.model.TipoDeVenda</value>
+				<value>br.com.pastel4you.model.Venda</value>
+				<value>br.com.pastel4you.model.Pastel_Ingrediente</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -36,15 +43,17 @@
 			</props>
 		</property>
 	</bean>
+	
 
 	<bean id="txManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-
+	
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-
+	
 	<bean id="dataDao" class="br.com.pastel4you.dao.DataDaoImpl"></bean>
 	<bean id="dataServices" class="br.com.pastel4you.services.DataServicesImpl"></bean>
+	
 </beans>

@@ -2,7 +2,11 @@ package br.com.pastel4you.services;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import br.com.pastel4you.dao.DataDao;
 import br.com.pastel4you.model.Cliente;
@@ -10,6 +14,8 @@ import br.com.pastel4you.model.Employee;
 import br.com.pastel4you.model.Ingrediente;
 import br.com.pastel4you.model.Pastel;
 
+
+@Service
 public class DataServicesImpl implements DataServices {
 
 	@Autowired
@@ -50,4 +56,14 @@ public class DataServicesImpl implements DataServices {
 		return dataDao.getPastelList();
 	}
 
+	@Override
+	public List getClienteSimpleList() throws Exception {
+		return dataDao.getClienteSimpleList();
+	}
+
+	@Override
+	public boolean addIngrediente(Ingrediente ingrediente) throws Exception {
+		return dataDao.addIngrediente(ingrediente);
+		
+	}
 }

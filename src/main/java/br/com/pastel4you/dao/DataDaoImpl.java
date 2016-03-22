@@ -3,22 +3,30 @@ package br.com.pastel4you.dao;
 import java.util.List;
 
 import javax.management.Query;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.StoredProcedureQuery;
 
+import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
 import br.com.pastel4you.model.Cliente;
 import br.com.pastel4you.model.Employee;
 import br.com.pastel4you.model.Ingrediente;
 import br.com.pastel4you.model.Pastel;
 
+@Configuration
+//@ComponentScan(basePackages = "br.com.pastel4you")
+//@ImportResource("classpath:spring-config.xml")
 public class DataDaoImpl implements DataDao {
+	
+  // ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
 
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -37,6 +45,18 @@ public class DataDaoImpl implements DataDao {
 
 		return false;
 	}
+	
+	@Override
+	public boolean addIngrediente(Ingrediente ingrediente) throws Exception {
+
+		session = sessionFactory.openSession();
+		tx = session.beginTransaction();
+		session.save(ingrediente);
+		tx.commit();
+		session.close();
+
+		return false;
+	}
 
 	@Override
 	public Employee getEntityById(long id) throws Exception {
@@ -48,8 +68,6 @@ public class DataDaoImpl implements DataDao {
 		tx.commit();
 		return employee;
 	}
-
-
 	
 	@Override
 	public boolean deleteEntity(long id)
@@ -92,42 +110,66 @@ public class DataDaoImpl implements DataDao {
 	public List<Ingrediente> getIngredienteList() throws Exception {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
-		List<Ingrediente> list = session.createCriteria(Ingrediente.class)
-				.list();
+		
+		SQLQuery callStoredProcedure_MYSQL = session.createSQLQuery("CALL SP_CONSULTA_INGREDIENTES").addEntity(Ingrediente.class);
+		//List<Ingrediente> list; 
+		List<Ingrediente> retorno = callStoredProcedure_MYSQL.list();
+		
 		tx.commit();
 		session.close();
-		return list;
+		return retorno;
 	}
 	
+
 	
-	@PersistenceContext
-	private EntityManager manager;
-	
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public List<Pastel> getPastelList() throws Exception {
+//		session = sessionFactory.openSession();
+//		tx = session.beginTransaction();
+//		SQLQuery callStoredProcedure_MYSQL = session.createSQLQuery("CALL SP_CONSULTA_PASTEIS").addEntity(Pastel.class);
+//		List<Pastel> list = callStoredProcedure_MYSQL.list();
+//		tx.commit();
+//		session.close();
+//		return list;
+//	}
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Pastel> getPastelList() throws Exception {
 		session = sessionFactory.openSession();
 		tx = session.beginTransaction();
-		StoredProcedureQuery proc =  ((EntityManager) getEntityList()).createStoredProcedureQuery("SP_CONSULTA_PASTEIS", Pastel.class);
-		List<Pastel> list; 
-		//= manager.createNamedQuery("SP_CONSULTA_PASTEIS", Pastel.class).getResultList();
-		list = proc.getResultList();
+		List<Pastel> pastel = session.createCriteria(Pastel.class)
+				.list();
 		tx.commit();
 		session.close();
-		return list;
+		return pastel;
 	}
+
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Cliente getClienteId(long id) throws Exception{
+	public List getClienteSimpleList() throws Exception {
 		session = sessionFactory.openSession();
-		Cliente cliente = (Cliente) session.load(Cliente.class,
-				new Long(id));
-		tx = session.getTransaction();
-		session.beginTransaction();
+		tx = session.beginTransaction();
+
+		Criteria crit = session.createCriteria(Cliente.class);
+		  ProjectionList projList = Projections.projectionList();
+		  projList.add(Projections.property("id"));
+		  projList.add(Projections.property("nome"));
+		  crit.setProjection(projList);
+		  List results = crit.list(); 
+		
 		tx.commit();
-		return cliente;	
+		session.close();
+		return results;
 	}
 
-
-
+//	@Override
+//	public List<Pastel> getPastelList() throws Exception {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+		
 }

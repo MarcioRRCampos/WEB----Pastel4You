@@ -11,12 +11,19 @@ public interface DataDao {
 
 	public boolean addEntity(Employee employee) throws Exception;
 	public Employee getEntityById(long id) throws Exception;
-	public Cliente getClienteId(long id) throws Exception;
 	public List<Employee> getEntityList() throws Exception;
 	public boolean deleteEntity(long id) throws Exception;
-	public List<Cliente> getClienteList() throws Exception;
+	
+	
 	// Ingrediente	
 	public List<Ingrediente> getIngredienteList() throws Exception;
-	//pPastel
+	public boolean addIngrediente(Ingrediente ingrediente) throws Exception;
+	
+	//Pastel
 	public List<Pastel> getPastelList() throws Exception;
+	
+	// Cliente
+	public List<Cliente> getClienteList()throws Exception;
+	public List getClienteSimpleList() throws Exception;
+	
 }
